@@ -1,14 +1,31 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace ToDoList
 {
+    public class SzigetElem
+    {
+        public string Nev { get; set; }
+        public int PontKoltseg { get; set; }
+        public Image Kep { get; set; }
+
+        public SzigetElem(string nev, int pontKoltseg, Image kep)
+        {
+            Nev = nev;
+            PontKoltseg = pontKoltseg;
+            Kep = kep;
+        }
+    }
+
     public partial class Form1 : Form
     {
         private int pontok = 0; // Pontok száma
         private List<string> feladatok = new List<string>(); // Feladatok listája
+        private List<SzigetElem> szigetElemek;
         private FlowLayoutPanel feladatokPanel; // Panel a feladatok megjelenítésére
+        private Panel szigetPanel;
 
         public Form1()
         {
@@ -22,6 +39,24 @@ namespace ToDoList
             feladatokPanel.Size = new System.Drawing.Size(400, 300);
             feladatokPanel.AutoScroll = true;
             Controls.Add(feladatokPanel);
+
+            // Sziget panel inicializálása
+            szigetPanel = new Panel
+            {
+                Size = new Size(400, 400),
+                Location = new Point(500, 50),
+                BorderStyle = BorderStyle.FixedSingle,
+                BackColor = Color.LightBlue
+            };
+            Controls.Add(szigetPanel);
+
+            // Sziget elemek inicializálása
+            szigetElemek = new List<SzigetElem>
+            {
+                new SzigetElem("Fa", 10, Properties.Resources.fa),
+                new SzigetElem("Kunyhó", 50, Properties.Resources.kunyho),
+                new SzigetElem("Tó", 30, Properties.Resources.to)
+            };
         }
 
         private void ToDoGomb_Click(object sender, EventArgs e)
@@ -84,7 +119,8 @@ namespace ToDoList
             // Vásárlási ablak megnyitása
             Form vasarlasAblak = new Form();
             vasarlasAblak.Text = "Vásárlások";
-            vasarlasAblak.Size = new System.Drawing.Size(300, 300);
+            vasarlasAblak.Size = new System.Drawing.Size(350, 400);
+            vasarlasAblak.BackColor = System.Drawing.Color.WhiteSmoke;
 
             FlowLayoutPanel vasarlasPanel = new FlowLayoutPanel();
             vasarlasPanel.Dock = DockStyle.Fill;
@@ -92,52 +128,52 @@ namespace ToDoList
             vasarlasPanel.AutoScroll = true;
             vasarlasAblak.Controls.Add(vasarlasPanel);
 
-            // Vásárlási lehetõség: Háttérszínek
-            string[] szinek = { "Kék", "Zöld", "Sárga", "Rózsaszín" };
-            System.Drawing.Color[] szinErtekek = { System.Drawing.Color.LightBlue, System.Drawing.Color.LightGreen, System.Drawing.Color.LightYellow, System.Drawing.Color.LightPink };
+            Label vasarlasCim = new Label();
+            vasarlasCim.Text = "Vásárlási lehetõségek";
+            vasarlasCim.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            vasarlasCim.AutoSize = true;
+            vasarlasCim.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            vasarlasPanel.Controls.Add(vasarlasCim);
 
-            for (int i = 0; i < szinek.Length; i++)
+            foreach (var elem in szigetElemek)
             {
-                Button szinGomb = new Button();
-                szinGomb.Text = $"{szinek[i]} háttér (50 pont)";
-                int szinIndex = i; // Rögzítjük az aktuális indexet a lambda kifejezéshez
-                szinGomb.Click += (s, e) => {
-                    if (pontok >= 50)
-                    {
-                        pontok -= 50;
-                        this.BackColor = szinErtekek[szinIndex];
-                        MessageBox.Show($"A háttérszín megváltozott: {szinek[szinIndex]}! Pontjaid: {pontok}");
-                        PontokLabel.Text = $"Pontjaid: {pontok}";
-                        vasarlasAblak.Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Nincs elég pontod ehhez a vásárláshoz!");
-                    }
+                Button vasarlasGomb = new Button
+                {
+                    Text = $"{elem.Nev} ({elem.PontKoltseg} pont)",
+                    AutoSize = true
                 };
-                vasarlasPanel.Controls.Add(szinGomb);
+                vasarlasGomb.Click += (s, e) => Vasarlas(elem);
+                vasarlasPanel.Controls.Add(vasarlasGomb);
             }
 
-            // Vásárlási lehetõség 2: Speciális funkció aktiválása
-            Button vasarlas2 = new Button();
-            vasarlas2.Text = "Speciális funkció aktiválása (100 pont)";
-            vasarlas2.Click += (s, e) => {
-                if (pontok >= 100)
-                {
-                    pontok -= 100;
-                    MessageBox.Show("Speciális funkció aktiválva!");
-                    PontokLabel.Text = $"Pontjaid: {pontok}";
-                    vasarlasAblak.Close();
-                }
-                else
-                {
-                    MessageBox.Show("Nincs elég pontod ehhez a vásárláshoz!");
-                }
-            };
-
-            vasarlasPanel.Controls.Add(vasarlas2);
-
             vasarlasAblak.ShowDialog();
+        }
+
+        private void Vasarlas(SzigetElem elem)
+        {
+            if (pontok >= elem.PontKoltseg)
+            {
+                pontok -= elem.PontKoltseg;
+                MessageBox.Show($"{elem.Nev} hozzáadva a szigetedhez! Pontjaid: {pontok}");
+                PontokLabel.Text = $"Pontjaid: {pontok}";
+
+                AddElemToSziget(elem);
+            }
+            else
+            {
+                MessageBox.Show("Nincs elég pontod ehhez a vásárláshoz!");
+            }
+        }
+
+        private void AddElemToSziget(SzigetElem elem)
+        {
+            PictureBox elemKep = new PictureBox
+            {
+                Image = elem.Kep,
+                SizeMode = PictureBoxSizeMode.AutoSize,
+                Location = new Point(new Random().Next(10, szigetPanel.Width - 50), new Random().Next(10, szigetPanel.Height - 50))
+            };
+            szigetPanel.Controls.Add(elemKep);
         }
     }
 }

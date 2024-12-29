@@ -2,15 +2,8 @@
 {
     partial class Form1
     {
-        /// <summary>
-        ///  Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        ///  Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,97 +15,115 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            ToDoGomb = new Button();
-            ToDoCim = new Label();
-            ToDoHozzaadasa = new Label();
-            ToDoBekerese = new TextBox();
-            PontokLabel = new Label();
-            PontokMegtekinteseGomb = new Button();
-            SuspendLayout();
+            this.ToDoGomb = new System.Windows.Forms.Button();
+            this.ToDoCim = new System.Windows.Forms.Label();
+            this.ToDoHozzaadasa = new System.Windows.Forms.Label();
+            this.ToDoBekerese = new System.Windows.Forms.TextBox();
+            this.PontokLabel = new System.Windows.Forms.Label();
+            this.PontokMegtekinteseGomb = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+
+            // 
+            // ToDoCim
+            // 
+            this.ToDoCim.AutoSize = true;
+            this.ToDoCim.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.ToDoCim.ForeColor = System.Drawing.Color.DarkSlateBlue;
+            this.ToDoCim.Location = new System.Drawing.Point(300, 20);
+            this.ToDoCim.Name = "ToDoCim";
+            this.ToDoCim.Size = new System.Drawing.Size(165, 41);
+            this.ToDoCim.TabIndex = 0;
+            this.ToDoCim.Text = "To-Do Lista";
+            this.ToDoCim.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+
+            // 
+            // ToDoHozzaadasa
+            // 
+            this.ToDoHozzaadasa.AutoSize = true;
+            this.ToDoHozzaadasa.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ToDoHozzaadasa.Location = new System.Drawing.Point(40, 90);
+            this.ToDoHozzaadasa.Name = "ToDoHozzaadasa";
+            this.ToDoHozzaadasa.Size = new System.Drawing.Size(210, 28);
+            this.ToDoHozzaadasa.TabIndex = 1;
+            this.ToDoHozzaadasa.Text = "Adj hozzá új feladatot:";
+
+            // 
+            // ToDoBekerese
+            // 
+            this.ToDoBekerese.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ToDoBekerese.Location = new System.Drawing.Point(40, 130);
+            this.ToDoBekerese.Name = "ToDoBekerese";
+            this.ToDoBekerese.Size = new System.Drawing.Size(250, 30);
+            this.ToDoBekerese.TabIndex = 2;
 
             // 
             // ToDoGomb
             // 
-            ToDoGomb.Location = new Point(221, 110);
-            ToDoGomb.Name = "ToDoGomb";
-            ToDoGomb.Size = new Size(164, 27);
-            ToDoGomb.TabIndex = 2;
-            ToDoGomb.Text = "Feladat hozzáadása";
-            ToDoGomb.UseVisualStyleBackColor = true;
-            // 
-            // ToDoCim
-            // 
-            ToDoCim.AutoSize = true;
-            ToDoCim.Location = new Point(345, 21);
-            ToDoCim.Name = "ToDoCim";
-            ToDoCim.Size = new Size(85, 20);
-            ToDoCim.TabIndex = 3;
-            ToDoCim.Text = "To-Do Lista";
-            // 
-            // ToDoHozzaadasa
-            // 
-            ToDoHozzaadasa.AutoSize = true;
-            ToDoHozzaadasa.Location = new Point(48, 89);
-            ToDoHozzaadasa.Name = "ToDoHozzaadasa";
-            ToDoHozzaadasa.Size = new Size(160, 20);
-            ToDoHozzaadasa.TabIndex = 4;
-            ToDoHozzaadasa.Text = "Adj hozzá új feladatot!";
-            // 
-            // ToDoBekerese
-            // 
-            ToDoBekerese.Location = new Point(48, 128);
-            ToDoBekerese.Name = "ToDoBekerese";
-            ToDoBekerese.Size = new Size(167, 27);
-            ToDoBekerese.TabIndex = 5;
+            this.ToDoGomb.BackColor = System.Drawing.Color.MediumSlateBlue;
+            this.ToDoGomb.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ToDoGomb.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.ToDoGomb.ForeColor = System.Drawing.Color.White;
+            this.ToDoGomb.Location = new System.Drawing.Point(320, 128);
+            this.ToDoGomb.Name = "ToDoGomb";
+            this.ToDoGomb.Size = new System.Drawing.Size(200, 35);
+            this.ToDoGomb.TabIndex = 3;
+            this.ToDoGomb.Text = "Feladat hozzáadása";
+            this.ToDoGomb.UseVisualStyleBackColor = false;
+
             // 
             // PontokLabel
             // 
-            PontokLabel.AutoSize = true;
-            PontokLabel.Location = new Point(48, 200);
-            PontokLabel.Name = "PontokLabel";
-            PontokLabel.Size = new Size(200, 20);
-            PontokLabel.TabIndex = 6;
-            PontokLabel.Text = "Pontjaid: 0";
+            this.PontokLabel.AutoSize = true;
+            this.PontokLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.PontokLabel.Location = new System.Drawing.Point(40, 200);
+            this.PontokLabel.Name = "PontokLabel";
+            this.PontokLabel.Size = new System.Drawing.Size(95, 28);
+            this.PontokLabel.TabIndex = 4;
+            this.PontokLabel.Text = "Pontjaid: 0";
+
             // 
             // PontokMegtekinteseGomb
             // 
-            PontokMegtekinteseGomb.Location = new Point(48, 230);
-            PontokMegtekinteseGomb.Name = "PontokMegtekinteseGomb";
-            PontokMegtekinteseGomb.Size = new Size(164, 27);
-            PontokMegtekinteseGomb.TabIndex = 7;
-            PontokMegtekinteseGomb.Text = "Pontok elköltése";
-            PontokMegtekinteseGomb.UseVisualStyleBackColor = true;
+            this.PontokMegtekinteseGomb.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.PontokMegtekinteseGomb.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PontokMegtekinteseGomb.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.PontokMegtekinteseGomb.ForeColor = System.Drawing.Color.White;
+            this.PontokMegtekinteseGomb.Location = new System.Drawing.Point(40, 240);
+            this.PontokMegtekinteseGomb.Name = "PontokMegtekinteseGomb";
+            this.PontokMegtekinteseGomb.Size = new System.Drawing.Size(200, 35);
+            this.PontokMegtekinteseGomb.TabIndex = 5;
+            this.PontokMegtekinteseGomb.Text = "Pontok elköltése";
+            this.PontokMegtekinteseGomb.UseVisualStyleBackColor = false;
+
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(869, 619);
-            Controls.Add(PontokMegtekinteseGomb);
-            Controls.Add(PontokLabel);
-            Controls.Add(ToDoBekerese);
-            Controls.Add(ToDoHozzaadasa);
-            Controls.Add(ToDoCim);
-            Controls.Add(ToDoGomb);
-            Name = "Form1";
-            Text = "To-Do Lista";
-            ResumeLayout(false);
-            PerformLayout();
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.PontokMegtekinteseGomb);
+            this.Controls.Add(this.PontokLabel);
+            this.Controls.Add(this.ToDoGomb);
+            this.Controls.Add(this.ToDoBekerese);
+            this.Controls.Add(this.ToDoHozzaadasa);
+            this.Controls.Add(this.ToDoCim);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Name = "Form1";
+            this.Text = "To-Do Lista";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.ResumeLayout(false);
+            this.PerformLayout();
         }
 
         #endregion
 
-        private Button ToDoGomb;
-        private Label ToDoCim;
-        private Label ToDoHozzaadasa;
-        private TextBox ToDoBekerese;
-        private Label PontokLabel;
-        private Button PontokMegtekinteseGomb;
+        private System.Windows.Forms.Button ToDoGomb;
+        private System.Windows.Forms.Label ToDoCim;
+        private System.Windows.Forms.Label ToDoHozzaadasa;
+        private System.Windows.Forms.TextBox ToDoBekerese;
+        private System.Windows.Forms.Label PontokLabel;
+        private System.Windows.Forms.Button PontokMegtekinteseGomb;
     }
 }
