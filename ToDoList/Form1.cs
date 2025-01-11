@@ -5,71 +5,55 @@ using System.Windows.Forms;
 
 namespace ToDoList
 {
-    public class SzigetElem
-    {
-        public string Nev { get; set; }
-        public int PontKoltseg { get; set; }
-        public Image Kep { get; set; }
-
-        public SzigetElem(string nev, int pontKoltseg, Image kep)
-        {
-            Nev = nev;
-            PontKoltseg = pontKoltseg;
-            Kep = kep;
-        }
-    }
-
     public partial class Form1 : Form
     {
-        private int pontok = 0; // Pontok száma
-        private List<string> feladatok = new List<string>(); // Feladatok listája
-        private List<SzigetElem> szigetElemek;
-        private FlowLayoutPanel feladatokPanel; // Panel a feladatok megjelenítésére
-        private Panel szigetPanel;
+        private int pontok = 0; // Felhasználó összes pontja
+        private FlowLayoutPanel feladatokPanel; // Feladatok megjelenítésére szolgáló panel
+        private List<(string FeladatSzoveg, string NehezsegiSzint)> feladatok = new List<(string, string)>(); // Feladatok és nehézségi szintek tárolása
+        private Random random = new Random(); // Véletlenszám generátor
 
         public Form1()
         {
             InitializeComponent();
-            ToDoGomb.Click += ToDoGomb_Click;
-            PontokMegtekinteseGomb.Click += PontokMegtekinteseGomb_Click;
+            ToDoGomb.Click += FeladatHozzaadasa; // Feladat hozzáadására gomb
+            PontokMegtekinteseGomb.Click += PontokMegtekintese; // Pontok megtekintése gomb
 
-            // Panel inicializálása
-            feladatokPanel = new FlowLayoutPanel();
-            feladatokPanel.Location = new System.Drawing.Point(48, 270);
-            feladatokPanel.Size = new System.Drawing.Size(400, 300);
-            feladatokPanel.AutoScroll = true;
+            feladatokPanel = new FlowLayoutPanel
+            {
+                Location = new Point(48, 270),
+                Size = new Size(400, 300),
+                AutoScroll = true
+            };
             Controls.Add(feladatokPanel);
 
-            // Sziget panel inicializálása
-            szigetPanel = new Panel
+            Button hatterszinGomb = new Button
             {
-                Size = new Size(400, 400),
-                Location = new Point(500, 50),
-                BorderStyle = BorderStyle.FixedSingle,
-                BackColor = Color.LightBlue
+                Text = "Válassz háttérszínt!",
+                Location = new Point(48, 50),
+                AutoSize = true
             };
-            Controls.Add(szigetPanel);
-
-            // Sziget elemek inicializálása
-            szigetElemek = new List<SzigetElem>
-            {
-                new SzigetElem("Fa", 10, Properties.Resources.fa),
-                new SzigetElem("Kunyhó", 50, Properties.Resources.kunyho),
-                new SzigetElem("Tó", 30, Properties.Resources.to)
-            };
+            hatterszinGomb.Click += HatterSzinValtoztatas;
+            Controls.Add(hatterszinGomb);
         }
 
-        private void ToDoGomb_Click(object sender, EventArgs e)
+        private void FeladatHozzaadasa(object sender, EventArgs e)
         {
-            // Feladat hozzáadása
-            string ujFeladat = ToDoBekerese.Text;
+            string ujFeladat = ToDoBekerese.Text; // Feladat szövege
+            string nehezsegiSzint = FeladatNehezsegiSzint.SelectedItem as string; // Kiválasztott nehézségi szint
 
-            if (!string.IsNullOrEmpty(ujFeladat) && ujFeladat != "Adj hozzá egy feladatot")
+            if (string.IsNullOrEmpty(nehezsegiSzint))
             {
-                feladatok.Add(ujFeladat);
-                MessageBox.Show($"Feladat hozzáadva!\n{ujFeladat}");
-                FrissitFeladatokMegjelenitese();
+                MessageBox.Show("Kérlek, válassz nehézségi szintet!");
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(ujFeladat))
+            {
+                feladatok.Add((ujFeladat, nehezsegiSzint)); // Új feladat mentése
+                MessageBox.Show($"Feladat hozzáadva!\n{ujFeladat} ({nehezsegiSzint})");
+                FeladatokMegjelenitese(); // Feladatok frissítése a megjelenítésben
                 ToDoBekerese.Clear();
+                FeladatNehezsegiSzint.SelectedIndex = -1; // Visszaállítjuk az alapértelmezett állapotra
             }
             else
             {
@@ -77,103 +61,91 @@ namespace ToDoList
             }
         }
 
-        private void FrissitFeladatokMegjelenitese()
+        private void FeladatokMegjelenitese()
         {
-            feladatokPanel.Controls.Clear();
+            feladatokPanel.Controls.Clear(); // Korábbi feladatok törlése a panelrõl
 
-            foreach (var feladat in feladatok)
+            foreach (var (FeladatSzoveg, NehezsegiSzint) in feladatok)
             {
-                FlowLayoutPanel sorPanel = new FlowLayoutPanel();
-                sorPanel.FlowDirection = FlowDirection.LeftToRight;
-                sorPanel.AutoSize = true;
+                FlowLayoutPanel feladatSor = new FlowLayoutPanel
+                {
+                    FlowDirection = FlowDirection.LeftToRight,
+                    AutoSize = true
+                };
 
-                Label feladatLabel = new Label();
-                feladatLabel.Text = feladat;
-                feladatLabel.AutoSize = true;
+                Label feladatLabel = new Label
+                {
+                    Text = $"{FeladatSzoveg} ({NehezsegiSzint})",
+                    AutoSize = true
+                };
 
-                RadioButton keszGomb = new RadioButton();
-                keszGomb.Text = "Kész";
-                keszGomb.AutoSize = true;
-                keszGomb.CheckedChanged += (s, e) => {
+                RadioButton keszGomb = new RadioButton
+                {
+                    Text = "Kész",
+                    AutoSize = true
+                };
+                keszGomb.CheckedChanged += (s, e) =>
+                {
                     if (keszGomb.Checked)
                     {
-                        Random rand = new Random();
-                        int nyertPont = rand.Next(1, 16);
+                        int nyertPont = PontokKiszamitasa(NehezsegiSzint); // Pontok kiszámítása a nehézségi szint alapján
                         pontok += nyertPont;
                         MessageBox.Show($"Feladat kész! {nyertPont} pontot kaptál. Pontjaid: {pontok}");
                         PontokLabel.Text = $"Pontjaid: {pontok}";
-                        feladatok.Remove(feladat);
-                        FrissitFeladatokMegjelenitese();
+                        feladatok.Remove((FeladatSzoveg, NehezsegiSzint)); // Feladat eltávolítása
+                        FeladatokMegjelenitese(); // Lista frissítése
                     }
                 };
 
-                sorPanel.Controls.Add(feladatLabel);
-                sorPanel.Controls.Add(keszGomb);
+                feladatSor.Controls.Add(feladatLabel);
+                feladatSor.Controls.Add(keszGomb);
 
-                feladatokPanel.Controls.Add(sorPanel);
+                feladatokPanel.Controls.Add(feladatSor);
             }
         }
 
-        private void PontokMegtekinteseGomb_Click(object sender, EventArgs e)
+        private int PontokKiszamitasa(string nehezsegiSzint)
         {
-            // Vásárlási ablak megnyitása
-            Form vasarlasAblak = new Form();
-            vasarlasAblak.Text = "Vásárlások";
-            vasarlasAblak.Size = new System.Drawing.Size(350, 400);
-            vasarlasAblak.BackColor = System.Drawing.Color.WhiteSmoke;
-
-            FlowLayoutPanel vasarlasPanel = new FlowLayoutPanel();
-            vasarlasPanel.Dock = DockStyle.Fill;
-            vasarlasPanel.FlowDirection = FlowDirection.TopDown;
-            vasarlasPanel.AutoScroll = true;
-            vasarlasAblak.Controls.Add(vasarlasPanel);
-
-            Label vasarlasCim = new Label();
-            vasarlasCim.Text = "Vásárlási lehetõségek";
-            vasarlasCim.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            vasarlasCim.AutoSize = true;
-            vasarlasCim.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            vasarlasPanel.Controls.Add(vasarlasCim);
-
-            foreach (var elem in szigetElemek)
+            return nehezsegiSzint switch
             {
-                Button vasarlasGomb = new Button
-                {
-                    Text = $"{elem.Nev} ({elem.PontKoltseg} pont)",
-                    AutoSize = true
-                };
-                vasarlasGomb.Click += (s, e) => Vasarlas(elem);
-                vasarlasPanel.Controls.Add(vasarlasGomb);
-            }
-
-            vasarlasAblak.ShowDialog();
-        }
-
-        private void Vasarlas(SzigetElem elem)
-        {
-            if (pontok >= elem.PontKoltseg)
-            {
-                pontok -= elem.PontKoltseg;
-                MessageBox.Show($"{elem.Nev} hozzáadva a szigetedhez! Pontjaid: {pontok}");
-                PontokLabel.Text = $"Pontjaid: {pontok}";
-
-                AddElemToSziget(elem);
-            }
-            else
-            {
-                MessageBox.Show("Nincs elég pontod ehhez a vásárláshoz!");
-            }
-        }
-
-        private void AddElemToSziget(SzigetElem elem)
-        {
-            PictureBox elemKep = new PictureBox
-            {
-                Image = elem.Kep,
-                SizeMode = PictureBoxSizeMode.AutoSize,
-                Location = new Point(new Random().Next(10, szigetPanel.Width - 50), new Random().Next(10, szigetPanel.Height - 50))
+                "Könnyû" => random.Next(1, 6), // 1-5 pont
+                "Közepes" => random.Next(6, 16), // 6-15 pont
+                "Nehéz" => random.Next(15, 26), // 15-25 pont
+                _ => 0
             };
-            szigetPanel.Controls.Add(elemKep);
+        }
+
+        private void HatterSzinValtoztatas(object sender, EventArgs e)
+        {
+            using (ColorDialog szinDialogus = new ColorDialog())
+            {
+                if (szinDialogus.ShowDialog() == DialogResult.OK)
+                {
+                    int szinPontKoltseg = 10;
+
+                    if (pontok >= szinPontKoltseg)
+                    {
+                        pontok -= szinPontKoltseg;
+                        MessageBox.Show($"Új háttérszínt választottál! {szinPontKoltseg} pontot vontunk le. Pontjaid: {pontok}");
+                        this.BackColor = szinDialogus.Color;
+                        PontokLabel.Text = $"Pontjaid: {pontok}";
+                    }
+                    else
+                    {
+                        MessageBox.Show("Nincs elég pontod a színválasztáshoz!");
+                    }
+                }
+            }
+        }
+
+        private void PontokMegtekintese(object sender, EventArgs e)
+        {
+            MessageBox.Show($"Jelenlegi pontjaid: {pontok}");
+        }
+
+        private void exitButton_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
