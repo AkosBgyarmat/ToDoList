@@ -17,6 +17,7 @@
 
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             ToDoCim = new Label();
             ToDoHozzaadasa = new Label();
             FeladatNehezsegiSzint = new ComboBox();
@@ -24,10 +25,14 @@
             PontokLabel = new Label();
             exitButton = new Button();
             ToDoGomb = new Button();
+            feladatokPanel = new FlowLayoutPanel();
+            pictureBox = new PictureBox();
+            VasarlasGomb = new Button();
+            GeneraltKepGomb = new Button();
+            ((System.ComponentModel.ISupportInitialize)pictureBox).BeginInit();
             SuspendLayout();
-            // 
+
             // ToDoCim
-            // 
             ToDoCim.AutoSize = true;
             ToDoCim.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
             ToDoCim.ForeColor = Color.DarkSlateBlue;
@@ -37,9 +42,8 @@
             ToDoCim.TabIndex = 0;
             ToDoCim.Text = "To-Do Lista";
             ToDoCim.TextAlign = ContentAlignment.MiddleCenter;
-            // 
+
             // ToDoHozzaadasa
-            // 
             ToDoHozzaadasa.AutoSize = true;
             ToDoHozzaadasa.Font = new Font("Segoe UI", 12F);
             ToDoHozzaadasa.Location = new Point(40, 90);
@@ -47,65 +51,104 @@
             ToDoHozzaadasa.Size = new Size(230, 28);
             ToDoHozzaadasa.TabIndex = 1;
             ToDoHozzaadasa.Text = "Válassz nehézségi szintet:";
-            // 
+
             // FeladatNehezsegiSzint
-            // 
             FeladatNehezsegiSzint.DropDownStyle = ComboBoxStyle.DropDownList;
             FeladatNehezsegiSzint.Font = new Font("Segoe UI", 10F);
             FeladatNehezsegiSzint.FormattingEnabled = true;
             FeladatNehezsegiSzint.Items.AddRange(new object[] { "Könnyű", "Közepes", "Nehéz" });
-            FeladatNehezsegiSzint.Location = new Point(286, 92);
+            FeladatNehezsegiSzint.Location = new Point(40, 121);
             FeladatNehezsegiSzint.Name = "FeladatNehezsegiSzint";
             FeladatNehezsegiSzint.Size = new Size(250, 31);
             FeladatNehezsegiSzint.TabIndex = 2;
-            // 
+
             // ToDoBekerese
-            // 
             ToDoBekerese.Font = new Font("Segoe UI", 10F);
-            ToDoBekerese.Location = new Point(40, 180);
+            ToDoBekerese.Location = new Point(40, 168);
             ToDoBekerese.Name = "ToDoBekerese";
             ToDoBekerese.PlaceholderText = "Add meg a feladatot...";
             ToDoBekerese.Size = new Size(250, 30);
             ToDoBekerese.TabIndex = 3;
-            // 
+
             // PontokLabel
-            // 
             PontokLabel.AutoSize = true;
             PontokLabel.Font = new Font("Segoe UI", 12F);
-            PontokLabel.Location = new Point(330, 133);
+            PontokLabel.Location = new Point(613, 121);
             PontokLabel.Name = "PontokLabel";
             PontokLabel.Size = new Size(104, 28);
             PontokLabel.TabIndex = 5;
             PontokLabel.Text = "Pontjaid: 0";
-            // 
+
             // exitButton
-            // 
-            exitButton.Location = new Point(320, 242);
+            exitButton.BackColor = Color.Red;
+            exitButton.Location = new Point(29, 401);
             exitButton.Name = "exitButton";
-            exitButton.Size = new Size(200, 29);
+            exitButton.Size = new Size(114, 37);
             exitButton.TabIndex = 7;
             exitButton.Text = "Kilépés";
-            exitButton.UseVisualStyleBackColor = true;
+            exitButton.UseVisualStyleBackColor = false;
             exitButton.Click += exitButton_Click_1;
-            // 
+
             // ToDoGomb
-            // 
             ToDoGomb.BackColor = Color.MediumSlateBlue;
             ToDoGomb.FlatStyle = FlatStyle.Flat;
             ToDoGomb.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             ToDoGomb.ForeColor = Color.White;
-            ToDoGomb.Location = new Point(320, 180);
+            ToDoGomb.Location = new Point(312, 121);
             ToDoGomb.Name = "ToDoGomb";
             ToDoGomb.Size = new Size(200, 35);
             ToDoGomb.TabIndex = 4;
             ToDoGomb.Text = "Feladat hozzáadása";
             ToDoGomb.UseVisualStyleBackColor = false;
-            // 
+
+            // feladatokPanel
+            feladatokPanel.Location = new Point(40, 220);
+            feladatokPanel.Name = "feladatokPanel";
+            feladatokPanel.Size = new Size(300, 300);
+            feladatokPanel.BorderStyle = BorderStyle.FixedSingle;
+            feladatokPanel.AutoScroll = true;
+
+            // pictureBox
+            pictureBox.BorderStyle = BorderStyle.FixedSingle;
+            pictureBox.Location = new Point(400, 220);
+            pictureBox.Name = "pictureBox";
+            pictureBox.Size = new Size(400, 300);
+            pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox.TabIndex = 9;
+            pictureBox.TabStop = false;
+
+            // VasarlasGomb
+            VasarlasGomb.BackColor = Color.LightCoral;
+            VasarlasGomb.FlatStyle = FlatStyle.Flat;
+            VasarlasGomb.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            VasarlasGomb.ForeColor = Color.White;
+            VasarlasGomb.Location = new Point(40, 540);
+            VasarlasGomb.Name = "VasarlasGomb";
+            VasarlasGomb.Size = new Size(200, 35);
+            VasarlasGomb.TabIndex = 8;
+            VasarlasGomb.Text = "Pontok elköltése";
+            VasarlasGomb.UseVisualStyleBackColor = false;
+
+            // GeneraltKepGomb
+            GeneraltKepGomb.BackColor = Color.Green;
+            GeneraltKepGomb.FlatStyle = FlatStyle.Flat;
+            GeneraltKepGomb.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            GeneraltKepGomb.ForeColor = Color.White;
+            GeneraltKepGomb.Location = new Point(600, 540);
+            GeneraltKepGomb.Name = "GeneraltKepGomb";
+            GeneraltKepGomb.Size = new Size(200, 35);
+            GeneraltKepGomb.TabIndex = 10;
+            GeneraltKepGomb.Text = "Összkép generálása";
+            GeneraltKepGomb.UseVisualStyleBackColor = false;
+
             // Form1
-            // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(850, 600);
+            Controls.Add(VasarlasGomb);
+            Controls.Add(GeneraltKepGomb);
+            Controls.Add(feladatokPanel);
+            Controls.Add(pictureBox);
             Controls.Add(exitButton);
             Controls.Add(PontokLabel);
             Controls.Add(ToDoGomb);
@@ -117,6 +160,7 @@
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "To-Do Lista";
+            ((System.ComponentModel.ISupportInitialize)pictureBox).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -130,5 +174,9 @@
         private System.Windows.Forms.Label PontokLabel;
         private System.Windows.Forms.Button exitButton;
         private Button ToDoGomb;
+        private FlowLayoutPanel feladatokPanel;
+        private PictureBox pictureBox;
+        private Button VasarlasGomb;
+        private Button GeneraltKepGomb;
     }
 }
