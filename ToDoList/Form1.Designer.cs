@@ -21,10 +21,9 @@
             ToDoHozzaadasa = new Label();
             FeladatNehezsegiSzint = new ComboBox();
             ToDoBekerese = new TextBox();
-            ToDoGomb = new Button();
             PontokLabel = new Label();
-            PontokMegtekinteseGomb = new Button();
             exitButton = new Button();
+            ToDoGomb = new Button();
             SuspendLayout();
             // 
             // ToDoCim
@@ -55,7 +54,7 @@
             FeladatNehezsegiSzint.Font = new Font("Segoe UI", 10F);
             FeladatNehezsegiSzint.FormattingEnabled = true;
             FeladatNehezsegiSzint.Items.AddRange(new object[] { "Könnyű", "Közepes", "Nehéz" });
-            FeladatNehezsegiSzint.Location = new Point(40, 130);
+            FeladatNehezsegiSzint.Location = new Point(286, 92);
             FeladatNehezsegiSzint.Name = "FeladatNehezsegiSzint";
             FeladatNehezsegiSzint.Size = new Size(250, 31);
             FeladatNehezsegiSzint.TabIndex = 2;
@@ -68,6 +67,26 @@
             ToDoBekerese.PlaceholderText = "Add meg a feladatot...";
             ToDoBekerese.Size = new Size(250, 30);
             ToDoBekerese.TabIndex = 3;
+            // 
+            // PontokLabel
+            // 
+            PontokLabel.AutoSize = true;
+            PontokLabel.Font = new Font("Segoe UI", 12F);
+            PontokLabel.Location = new Point(330, 133);
+            PontokLabel.Name = "PontokLabel";
+            PontokLabel.Size = new Size(104, 28);
+            PontokLabel.TabIndex = 5;
+            PontokLabel.Text = "Pontjaid: 0";
+            // 
+            // exitButton
+            // 
+            exitButton.Location = new Point(320, 242);
+            exitButton.Name = "exitButton";
+            exitButton.Size = new Size(200, 29);
+            exitButton.TabIndex = 7;
+            exitButton.Text = "Kilépés";
+            exitButton.UseVisualStyleBackColor = true;
+            exitButton.Click += exitButton_Click_1;
             // 
             // ToDoGomb
             // 
@@ -82,46 +101,12 @@
             ToDoGomb.Text = "Feladat hozzáadása";
             ToDoGomb.UseVisualStyleBackColor = false;
             // 
-            // PontokLabel
-            // 
-            PontokLabel.AutoSize = true;
-            PontokLabel.Font = new Font("Segoe UI", 12F);
-            PontokLabel.Location = new Point(330, 133);
-            PontokLabel.Name = "PontokLabel";
-            PontokLabel.Size = new Size(104, 28);
-            PontokLabel.TabIndex = 5;
-            PontokLabel.Text = "Pontjaid: 0";
-            // 
-            // PontokMegtekinteseGomb
-            // 
-            PontokMegtekinteseGomb.BackColor = Color.CornflowerBlue;
-            PontokMegtekinteseGomb.FlatStyle = FlatStyle.Flat;
-            PontokMegtekinteseGomb.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            PontokMegtekinteseGomb.ForeColor = Color.White;
-            PontokMegtekinteseGomb.Location = new Point(526, 180);
-            PontokMegtekinteseGomb.Name = "PontokMegtekinteseGomb";
-            PontokMegtekinteseGomb.Size = new Size(200, 35);
-            PontokMegtekinteseGomb.TabIndex = 6;
-            PontokMegtekinteseGomb.Text = "Pontok lekérdezése";
-            PontokMegtekinteseGomb.UseVisualStyleBackColor = false;
-            // 
-            // exitButton
-            // 
-            exitButton.Location = new Point(320, 242);
-            exitButton.Name = "exitButton";
-            exitButton.Size = new Size(200, 29);
-            exitButton.TabIndex = 7;
-            exitButton.Text = "Kilépés";
-            exitButton.UseVisualStyleBackColor = true;
-            exitButton.Click += exitButton_Click;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(exitButton);
-            Controls.Add(PontokMegtekinteseGomb);
             Controls.Add(PontokLabel);
             Controls.Add(ToDoGomb);
             Controls.Add(ToDoBekerese);
@@ -142,9 +127,8 @@
         private System.Windows.Forms.Label ToDoHozzaadasa;
         private System.Windows.Forms.ComboBox FeladatNehezsegiSzint;
         private System.Windows.Forms.TextBox ToDoBekerese;
-        private System.Windows.Forms.Button ToDoGomb;
         private System.Windows.Forms.Label PontokLabel;
-        private System.Windows.Forms.Button PontokMegtekinteseGomb;
-        private Button exitButton;
+        private System.Windows.Forms.Button exitButton;
+        private Button ToDoGomb;
     }
 }

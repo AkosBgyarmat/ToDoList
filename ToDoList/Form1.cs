@@ -16,7 +16,7 @@ namespace ToDoList
         {
             InitializeComponent();
             ToDoGomb.Click += FeladatHozzaadasa; // Feladat hozzáadására gomb
-            PontokMegtekinteseGomb.Click += PontokMegtekintese; // Pontok megtekintése gomb
+            //PontokMegtekinteseGomb.Click += PontokMegtekintese; // Pontok megtekintése gomb
 
             feladatokPanel = new FlowLayoutPanel
             {
@@ -25,15 +25,6 @@ namespace ToDoList
                 AutoScroll = true
             };
             Controls.Add(feladatokPanel);
-
-            Button hatterszinGomb = new Button
-            {
-                Text = "Válassz háttérszínt!",
-                Location = new Point(48, 50),
-                AutoSize = true
-            };
-            hatterszinGomb.Click += HatterSzinValtoztatas;
-            Controls.Add(hatterszinGomb);
         }
 
         private void FeladatHozzaadasa(object sender, EventArgs e)
@@ -143,9 +134,10 @@ namespace ToDoList
             MessageBox.Show($"Jelenlegi pontjaid: {pontok}");
         }
 
-        private void exitButton_Click(object sender, EventArgs e)
+        private void exitButton_Click_1(object sender, EventArgs e)
         {
             Application.Exit();
+
         }
     }
 }
