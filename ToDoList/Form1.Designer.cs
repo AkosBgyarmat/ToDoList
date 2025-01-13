@@ -2,8 +2,15 @@
 {
     partial class Form1
     {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -15,6 +22,10 @@
 
         #region Windows Form Designer generated code
 
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
         private void InitializeComponent()
         {
             ToDoCim = new Label();
@@ -86,7 +97,7 @@
             // exitButton
             // 
             exitButton.BackColor = Color.Red;
-            exitButton.Location = new Point(644, 590);
+            exitButton.Location = new Point(267, 590);
             exitButton.Name = "exitButton";
             exitButton.Size = new Size(114, 37);
             exitButton.TabIndex = 7;
@@ -153,31 +164,29 @@
             // 
             // MentesGomb
             // 
-            MentesGomb.BackColor = Color.Orange;
+            MentesGomb.BackColor = Color.CornflowerBlue;
             MentesGomb.FlatStyle = FlatStyle.Flat;
             MentesGomb.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             MentesGomb.ForeColor = Color.White;
-            MentesGomb.Location = new Point(320, 540);
+            MentesGomb.Location = new Point(400, 540);
             MentesGomb.Name = "MentesGomb";
-            MentesGomb.Size = new Size(200, 35);
+            MentesGomb.Size = new Size(150, 35);
             MentesGomb.TabIndex = 12;
             MentesGomb.Text = "Mentés";
             MentesGomb.UseVisualStyleBackColor = false;
-            MentesGomb.Click += MentesGomb_Click;
             // 
             // BetoltesGomb
             // 
-            BetoltesGomb.BackColor = Color.Teal;
+            BetoltesGomb.BackColor = Color.Gold;
             BetoltesGomb.FlatStyle = FlatStyle.Flat;
             BetoltesGomb.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            BetoltesGomb.ForeColor = Color.White;
-            BetoltesGomb.Location = new Point(320, 590);
+            BetoltesGomb.ForeColor = Color.Black;
+            BetoltesGomb.Location = new Point(600, 590);
             BetoltesGomb.Name = "BetoltesGomb";
             BetoltesGomb.Size = new Size(200, 35);
             BetoltesGomb.TabIndex = 13;
             BetoltesGomb.Text = "Adatok betöltése";
             BetoltesGomb.UseVisualStyleBackColor = false;
-            BetoltesGomb.Click += BetoltesGomb_Click;
             // 
             // Form1
             // 
