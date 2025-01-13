@@ -1,24 +1,23 @@
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
+
 namespace ToDoList
 {
     public partial class Form1 : Form
     {
-        private int pontok = 0; // Felhasználó összes pontja
-        private List<(string FeladatSzoveg, RadioButton KeszGomb)> feladatok = new List<(string, RadioButton)>(); // Feladatok tárolása
-        private List<(string Nev, string FajlNev, int Ar)> megvasaroltKepek = new List<(string, string, int)>(); // Vásárolt képek tárolása
-
-        private Dictionary<string, Point> kepPoziciok = new Dictionary<string, Point>
-        {
-            { "Fácska", new Point(10, 10) },
-            { "Házikó", new Point(220, 10) },
-            { "Kutya", new Point(430, 10) } // Kutya pozíciója
-        };
+        private int pontok = 0;
+        private List<(string FeladatSzoveg, RadioButton KeszGomb)> feladatok = new List<(string, RadioButton)>();
+        private List<(string Nev, string FajlNev, int Ar)> megvasaroltKepek = new List<(string, string, int)>();
 
         public Form1()
         {
             InitializeComponent();
-            ToDoGomb.Click += FeladatHozzaadasa; // Feladat hozzáadására gomb
-            VasarlasGomb.Click += VasarlasiAblakMegnyitasa; // Vásárlási menü megnyitása
-            GeneraltKepGomb.Click += GeneraltKepMegjelenitese; // Generált kép létrehozása
+            ToDoGomb.Click += FeladatHozzaadasa;
+            VasarlasGomb.Click += VasarlasiAblakMegnyitasa;
+            GeneraltKepGomb.Click += GeneraltKepMegjelenitese;
         }
 
         private void FeladatHozzaadasa(object sender, EventArgs e)
@@ -45,6 +44,7 @@ namespace ToDoList
                     Text = $"{ujFeladat} ({nehezsegiSzint})",
                     AutoSize = true
                 };
+
                 keszGomb.CheckedChanged += (s, e) =>
                 {
                     if (keszGomb.Checked)
@@ -100,7 +100,7 @@ namespace ToDoList
             {
                 ("Fácska", "C:\\Users\\User\\Desktop\\fácskaJo.jpg", 20),
                 ("Házikó", "C:\\Users\\User\\Desktop\\hazikoJo.jpg", 30),
-                ("Kutya", "C:\\Users\\User\\Desktop\\kutya.jpg", 25) // Új kutya kép hozzáadása
+                ("Kutya", "C:\\Users\\User\\Desktop\\kutyaJo.jpg", 25)
             };
 
             foreach (var (Nev, FajlNev, Ar) in kepek)
@@ -126,7 +126,6 @@ namespace ToDoList
 
                 kepSor.Controls.Add(kepLabel);
                 kepSor.Controls.Add(megveszGomb);
-
                 kepekPanel.Controls.Add(kepSor);
             }
 
@@ -137,19 +136,24 @@ namespace ToDoList
         {
             if (pontok >= ar)
             {
+                if (!File.Exists(kepFajl))
+                {
+                    MessageBox.Show($"A fájl nem található: {kepFajl}");
+                    return;
+                }
+
                 pontok -= ar;
                 PontokLabel.Text = $"Pontjaid: {pontok}";
                 megvasaroltKepek.Add((nev, kepFajl, ar));
 
-                if (kepPoziciok.TryGetValue(nev, out Point pozicio))
+                try
                 {
-                    using (Graphics g = pictureBox.CreateGraphics())
-                    {
-                        using (Image img = Image.FromFile(kepFajl))
-                        {
-                            g.DrawImage(img, pozicio.X, pozicio.Y, 200, 200);
-                        }
-                    }
+                    pictureBox.Image = Image.FromFile(kepFajl);
+                    pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Nem sikerült betölteni a képet: {ex.Message}");
                 }
 
                 MessageBox.Show($"Sikeresen megvásároltad a(z) {nev} képet!");
@@ -161,6 +165,9 @@ namespace ToDoList
         }
 
         private void GeneraltKepMegjelenitese(object sender, EventArgs e)
+
+
+
         {
             if (megvasaroltKepek.Count == 0)
             {
@@ -191,7 +198,117 @@ namespace ToDoList
             MessageBox.Show("Az összkép elkészült!");
         }
 
-        private void exitButton_Click_1(object sender, EventArgs e)
+        private void MentesGomb_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string mentesiUtvonal = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "eredmenyek.txt");
+
+                using (StreamWriter writer = new StreamWriter(mentesiUtvonal))
+                {
+                    writer.WriteLine($"Pontok: {pontok}");
+                    writer.WriteLine("Feladatok:");
+                    foreach (var (FeladatSzoveg, _) in feladatok)
+                    {
+                        writer.WriteLine($"- {FeladatSzoveg}");
+                    }
+
+                    writer.WriteLine("Megvásárolt képek:");
+                    foreach (var (Nev, FajlNev, Ar) in megvasaroltKepek)
+                    {
+                        writer.WriteLine($"- {Nev}:{FajlNev}:{Ar}");
+                    }
+                }
+
+                MessageBox.Show($"Mentés sikeres: {mentesiUtvonal}", "Mentés", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Hiba történt a mentés során: {ex.Message}", "Hiba", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void BetoltesGomb_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string mentesiUtvonal = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "eredmenyek.txt");
+
+                if (!File.Exists(mentesiUtvonal))
+                {
+                    MessageBox.Show("Nem található mentett adat!", "Hiba", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                string[] sorok = File.ReadAllLines(mentesiUtvonal);
+
+                pontok = 0;
+                feladatok.Clear();
+                feladatokPanel.Controls.Clear();
+                megvasaroltKepek.Clear();
+
+                string szekcio = "";
+                foreach (string sor in sorok)
+                {
+                    if (sor.StartsWith("Pontok:"))
+                    {
+                        pontok = int.Parse(sor.Substring(8).Trim());
+                        PontokLabel.Text = $"Pontjaid: {pontok}";
+                    }
+                    else if (sor.StartsWith("Feladatok:"))
+                    {
+                        szekcio = "Feladatok";
+                    }
+                    else if (sor.StartsWith("Megvásárolt képek:"))
+                    {
+                        szekcio = "Megvásárolt képek";
+                    }
+                    else if (szekcio == "Feladatok" && sor.StartsWith("- "))
+                    {
+                        string feladatSzoveg = sor.Substring(2).Trim();
+                        RadioButton keszGomb = new RadioButton
+                        {
+                            Text = feladatSzoveg,
+                            AutoSize = true
+                        };
+
+                        keszGomb.CheckedChanged += (s, e) =>
+                        {
+                            if (keszGomb.Checked)
+                            {
+                                feladatok.Remove((feladatSzoveg, keszGomb));
+                                feladatokPanel.Controls.Remove(keszGomb);
+                                pontok += PontokKiszamitasa(feladatSzoveg);
+                                PontokLabel.Text = $"Pontjaid: {pontok}";
+                                MessageBox.Show($"Feladat kész! Pontjaid: {pontok}");
+                            }
+                        };
+
+                        feladatok.Add((feladatSzoveg, keszGomb));
+                        feladatokPanel.Controls.Add(keszGomb);
+                    }
+                    else if (szekcio == "Megvásárolt képek" && sor.StartsWith("- "))
+                    {
+                        string[] kepAdatok = sor.Substring(2).Split(':');
+                        string nev = kepAdatok[0];
+                        string fajlNev = kepAdatok[1];
+                        int ar = int.Parse(kepAdatok[2]);
+
+                        megvasaroltKepek.Add((nev, fajlNev, ar));
+                        pictureBox.Image = Image.FromFile(fajlNev);
+                        pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                    }
+                }
+
+                MessageBox.Show("Adatok sikeresen betöltve!", "Betöltés", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Hiba történt az adatok betöltése során: {ex.Message}", "Hiba", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void exitButton_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
